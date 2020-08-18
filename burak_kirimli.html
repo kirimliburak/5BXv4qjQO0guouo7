@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Burak Kırımlı</title>
+</head>
+
+<body onload="load_usd();">
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <center>
+                    <h1 style="color: crimson; font-weight: bold;" id="counter_text">Counter: </h1>
+                </center>
+                <br>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p style="font-size: xx-large;">Hour
+                                <button type="button" class="btn btn-default btn-xs" onclick="increase_hour();">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                                <button type="button" class="btn btn-default btn-xs" onclick="decrease_hour();">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </button>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p style="font-size: xx-large;">Minute
+                                <button type="button" class="btn btn-default btn-xs" onclick="increase_minute();">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                                <button type="button" class="btn btn-default btn-xs" onclick="decrease_minute();">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </button>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p style="font-size: xx-large;">Second
+                                <button type="button" class="btn btn-default btn-xs" onclick="increase_second();">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                                <button type="button" class="btn btn-default btn-xs" onclick="decrease_second();">
+                                    <span class="glyphicon glyphicon-minus"></span>
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="container-fluid">
+                    <center>
+                        <button class="btn btn-warning btn-lg" onclick="reset_timer();">Reset</button>
+                    </center>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <center>
+                                        <p style="font-weight: bold; font-size: large;">USD</p>
+                                    </center>
+                                </div>
+                                <div class="panel-body">
+                                    <center>
+                                        <p id="usd" style="font-size: large;"></p>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <center>
+                                        <p style="font-weight: bold; font-size: large;">GBP</p>
+                                    </center>
+                                </div>
+                                <div class="panel-body">
+                                    <center>
+                                        <p id="gbp" style="font-size: large;"></p>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-3">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <center>
+                                        <p style="font-weight: bold; font-size: large;">EUR</p>
+                                    </center>
+                                </div>
+                                <div class="panel-body">
+                                    <center>
+                                        <p id="eur" style="font-size: large;"></p>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <center>
+                        <p id="update">Last update at: </p>
+                    </center>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</body>
+<script>
+    var defaultTime = 36000;
+    var counter = setInterval(function () {
+        --defaultTime;
+
+        var defaultHour = Math.floor((defaultTime) / 3600);
+
+        var defaultMinute = Math.floor(((defaultTime - defaultHour * 3600)) / 60);
+
+        var defaultSecond = Math.floor(((defaultTime - defaultHour * 3600) - defaultMinute * 60));
+        if (defaultHour < 10) {
+            defaultHour = "0" + defaultHour;
+        }
+        if (defaultMinute < 10) {
+            defaultMinute = "0" + defaultMinute;
+        }
+        if (defaultSecond < 10) {
+            defaultSecond = "0" + defaultSecond;
+        }
+        document.getElementById("counter_text").innerHTML = " " + defaultHour + " : " + defaultMinute + " : " + defaultSecond;
+        console.log(" " + defaultHour + " : " + defaultMinute + " : " + defaultSecond);
+        if (defaultTime <= 0) {
+            clearInterval(counter);
+            document.getElementById("counter_text").innerHTML = "Time is over!";
+        }
+    }, 1000);
+
+    function increase_hour() {
+        defaultTime = defaultTime + 3600;
+    }
+    function decrease_hour() {
+        if (parseInt(document.getElementById("counter_text").innerHTML.substring(1, 3)) > 0) {
+            defaultTime = defaultTime - 3600;
+        }
+    }
+    function increase_minute() {
+        defaultTime = defaultTime + 60;
+    }
+    function decrease_minute() {
+        if ((parseInt(document.getElementById("counter_text").innerHTML.substring(0, 3)) != 0)) {
+            defaultTime = defaultTime - 60;
+        }
+    }
+    function increase_second() {
+        defaultTime++;
+    }
+    function decrease_second() {
+        if ((parseInt(document.getElementById("counter_text").innerHTML.substring(0, 3)) != 0) || (parseInt(document.getElementById("counter_text").innerHTML.substring(5, 7)) != 0)) {
+            defaultTime--;
+        }
+    }
+
+    function reset_timer() {
+        defaultTime = 36000;
+    }
+
+    async function load_usd() {
+        let url = 'https://api.coindesk.com/v1/bpi/currentprice.json';
+        let response = await fetch(url, {
+            method: 'GET',
+        });
+
+        let prices = await response.json();
+        console.log(prices.bpi.EUR.rate);
+        document.getElementById("usd").innerHTML = prices.bpi.USD.rate;
+        document.getElementById("gbp").innerHTML = prices.bpi.GBP.rate;
+        document.getElementById("eur").innerHTML = prices.bpi.EUR.rate;
+        var last = Date(Date.now());
+        var lastUpdate = last.toString();
+        document.getElementById("update").innerHTML = "Last update at: " + lastUpdate;
+    }
+
+    var dataUpdate = setInterval(function () {
+        load_usd();
+    }, 10000);
+
+</script>
+
+</html>
